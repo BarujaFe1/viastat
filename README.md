@@ -17,8 +17,8 @@
   </p>
 
   <p>
-    <a href="https://representation-mpg-reflect-stylus.trycloudflare.com">
-      <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-trycloudflare.com-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
+    <a href="https://viastat-eight.vercel.app">
+      <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-viastat--eight.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" />
     </a>
     <a href="https://github.com/BarujaFe1/viastat">
       <img alt="GitHub" src="https://img.shields.io/badge/GitHub-BarujaFe1%2Fviastat-181717?style=for-the-badge&logo=github" />
@@ -302,17 +302,11 @@ Dashboard / Executive Brief / Methodology
 ## 🚀 Quick Start / Início Rápido
 
 ### Live Demo
-Demo pública (lab): **[https://representation-mpg-reflect-stylus.trycloudflare.com](https://representation-mpg-reflect-stylus.trycloudflare.com)** → **Abrir Live Demo**.
+Demo pública (lab): **[https://viastat-eight.vercel.app](https://viastat-eight.vercel.app)** → **Abrir Live Demo**.
 
 > **Lab only.** Dataset sintético (seed 42). Não é operação real de transporte público.
 >
-> **Deploy note:** o projeto já está linkado na Vercel (`barujafe1s-projects/viastat`) com `vercel.json` Services (Next + FastAPI). O deploy de produção ficou bloqueado temporariamente pelo limite diário da conta free (`api-deployments-free-per-day`). Quando a cota resetar:
->
-> ```bash
-> npx vercel deploy --prod --yes --scope barujafe1s-projects
-> ```
->
-> URL permanente pretendida: `https://viastat.vercel.app`
+> Hospedado na Vercel (`baruja-fe/viastat`) com Services (Next.js + FastAPI) e snapshot demo em `data/`.
 
 ### Pré-requisitos
 - **Node.js** v20+
