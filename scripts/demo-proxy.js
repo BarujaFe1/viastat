@@ -14,14 +14,24 @@ function shouldProxyToApi(pathname) {
     pathname === "/health" ||
     pathname === "/docs" ||
     pathname === "/openapi.json" ||
+    pathname === "/api/routes" ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/docs/")
   );
 }
 
+function normalizeApiPath(pathname, search) {
+  // FastAPI redirects /api/routes -> /api/routes/; avoid tunnel/proxy redirect loops.
+  if (pathname === "/api/routes") return "/api/routes/" + search;
+  return pathname + search;
+}
+
 function proxy(req, res, targetOrigin) {
   const incoming = new URL(req.url, "http://localhost");
-  const target = new URL(incoming.pathname + incoming.search, targetOrigin);
+  const normalizedPath = shouldProxyToApi(incoming.pathname)
+    ? normalizeApiPath(incoming.pathname, incoming.search)
+    : incoming.pathname + incoming.search;
+  const target = new URL(normalizedPath, targetOrigin);
   const headers = { ...req.headers, host: target.host };
 
   const upstream = http.request(

@@ -32,7 +32,7 @@ export const api = {
     fetchJSON<NetworkSummary>("/api/network/summary", params),
 
   routes: (params?: { date?: string; hour?: string }) =>
-    fetchJSON<{ routes: RouteItem[] }>("/api/routes", params),
+    fetchJSON<{ routes: RouteItem[] }>("/api/routes/", params),
 
   routeSummary: (id: string, params?: { date?: string; hour?: string }) =>
     fetchJSON<{ route_id: string; metrics: RouteMetric[] }>(`/api/routes/${id}/summary`, params),
