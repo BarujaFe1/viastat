@@ -12,12 +12,8 @@ node_modules/
 *.tsbuildinfo
 
 # Data
-data/raw/*.csv
-data/raw/*.json
-data/raw/*.geojson
-data/bronze/
-data/silver/
-data/gold/
+# Demo snapshot under data/ is tracked for Live Demo (lab).
+# Local regenerations can still overwrite these files.
 
 # IDE
 .vscode/

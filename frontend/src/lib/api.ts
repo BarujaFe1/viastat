@@ -3,10 +3,16 @@ import type {
   Stop, PipelineStatus, QualitySummary, ScheduleComparisonItem,
 } from "./types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// Empty string = same-origin (Vercel Live Demo via rewrites).
+// Local default remains the FastAPI port unless NEXT_PUBLIC_API_URL is set.
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL ??
+  (process.env.NODE_ENV === "production" ? "" : "http://localhost:8000");
 
 async function fetchJSON<T>(path: string, params?: Record<string, string>): Promise<T> {
-  const url = new URL(`${API_BASE}${path}`);
+  const url = API_BASE
+    ? new URL(`${API_BASE}${path}`)
+    : new URL(path, typeof window !== "undefined" ? window.location.origin : "http://localhost:3000");
   if (params) {
     Object.entries(params).forEach(([k, v]) => {
       if (v !== undefined && v !== "") url.searchParams.set(k, v);

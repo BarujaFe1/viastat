@@ -1,0 +1,24 @@
+{
+  "name": "ViaStat Synthetic Dataset",
+  "version": "0.1.0",
+  "seed": 42,
+  "routes": 10,
+  "days": 7,
+  "total_pings": 79603,
+  "start_date": "2026-06-01T00:00:00",
+  "end_date": "2026-06-07T23:59:59",
+  "region": "S\u00e3o Paulo (simulado)",
+  "anomalies": [
+    "none",
+    "duplicates",
+    "invalid_coords",
+    "signal_loss",
+    "impossible_speed",
+    "irregular_headway",
+    "low_coverage",
+    "out_of_order",
+    "high_headway",
+    "exemplar"
+  ],
+  "description": "Dataset sint\u00e9tico reproduz\u00edvel para demonstrar a plataforma ViaStat. Inclui anomalias controladas como duplicatas, gaps, coordenadas inv\u00e1lidas e velocidades imposs\u00edveis."
+}

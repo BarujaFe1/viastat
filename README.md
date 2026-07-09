@@ -17,6 +17,9 @@
   </p>
 
   <p>
+    <a href="https://viastat.vercel.app">
+      <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-viastat.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+    </a>
     <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs" />
     <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-React-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
     <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" />
@@ -294,6 +297,11 @@ Dashboard / Executive Brief / Methodology
 ---
 
 ## 🚀 Quick Start / Início Rápido
+
+### Live Demo
+Demo pública one-click: **[https://viastat.vercel.app](https://viastat.vercel.app)** → **Abrir Live Demo**.
+
+> **Lab only.** Dataset sintético (seed 42). Não é operação real de transporte público.
 
 ### Pré-requisitos
 - **Node.js** v20+

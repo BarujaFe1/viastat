@@ -19,4 +19,9 @@ CORS_ORIGINS = [
     ).split(",")
     if o.strip()
 ]
+# Lab/demo: also allow Vercel preview/production hosts.
+CORS_ORIGIN_REGEX = os.getenv(
+    "VIASTAT_CORS_ORIGIN_REGEX",
+    r"https://.*\.vercel\.app",
+)
 PORT = int(os.getenv("VIASTAT_PORT", "8000"))
