@@ -17,8 +17,11 @@
   </p>
 
   <p>
-    <a href="https://viastat.vercel.app">
-      <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-viastat.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+    <a href="https://representation-mpg-reflect-stylus.trycloudflare.com">
+      <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-trycloudflare.com-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
+    </a>
+    <a href="https://github.com/BarujaFe1/viastat">
+      <img alt="GitHub" src="https://img.shields.io/badge/GitHub-BarujaFe1%2Fviastat-181717?style=for-the-badge&logo=github" />
     </a>
     <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs" />
     <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-React-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />

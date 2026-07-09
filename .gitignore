@@ -46,3 +46,6 @@ out/
 # Local screenshots / temp
 *.tmp
 *.temp
+
+.vercel
+.env*
