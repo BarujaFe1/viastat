@@ -8,6 +8,8 @@ app = FastAPI(
     title="ViaStat API",
     description="Mobilidade Auditada — API de métricas de regularidade e qualidade de dados de transporte público",
     version="0.1.0",
+    # Avoid absolute slash redirects that break public tunnels/proxies.
+    redirect_slashes=False,
 )
 
 app.add_middleware(

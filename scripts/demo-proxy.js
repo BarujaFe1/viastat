@@ -15,14 +15,17 @@ function shouldProxyToApi(pathname) {
     pathname === "/docs" ||
     pathname === "/openapi.json" ||
     pathname === "/api/routes" ||
+    pathname === "/api/brief" ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/docs/")
   );
 }
 
 function normalizeApiPath(pathname, search) {
-  // FastAPI redirects /api/routes -> /api/routes/; avoid tunnel/proxy redirect loops.
-  if (pathname === "/api/routes") return "/api/routes/" + search;
+  // FastAPI may redirect collection roots to trailing slash; normalize early.
+  if (pathname === "/api/routes" || pathname === "/api/brief") {
+    return pathname + "/" + search;
+  }
   return pathname + search;
 }
 
@@ -32,7 +35,12 @@ function proxy(req, res, targetOrigin) {
     ? normalizeApiPath(incoming.pathname, incoming.search)
     : incoming.pathname + incoming.search;
   const target = new URL(normalizedPath, targetOrigin);
-  const headers = { ...req.headers, host: target.host };
+
+  const headers = { ...req.headers };
+  // Keep public host for redirects; tell upstream about the original request.
+  headers["x-forwarded-host"] = req.headers.host || "";
+  headers["x-forwarded-proto"] = "https";
+  headers.host = target.host;
 
   const upstream = http.request(
     {
@@ -44,7 +52,18 @@ function proxy(req, res, targetOrigin) {
       headers,
     },
     (upRes) => {
-      res.writeHead(upRes.statusCode || 502, upRes.headers);
+      const outHeaders = { ...upRes.headers };
+      if (outHeaders.location) {
+        try {
+          const loc = new URL(outHeaders.location, targetOrigin);
+          if (loc.hostname === "127.0.0.1" || loc.hostname === "localhost") {
+            outHeaders.location = loc.pathname + loc.search;
+          }
+        } catch {
+          // keep original location
+        }
+      }
+      res.writeHead(upRes.statusCode || 502, outHeaders);
       upRes.pipe(res);
     }
   );

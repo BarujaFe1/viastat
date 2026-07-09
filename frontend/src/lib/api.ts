@@ -58,7 +58,7 @@ export const api = {
 
   pipelineStatus: () => fetchJSON<PipelineStatus>("/api/pipeline/status"),
 
-  brief: () => fetchJSON<ExecutiveBrief>("/api/brief"),
+  brief: () => fetchJSON<ExecutiveBrief>("/api/brief/"),
 };
 
 export interface RouteItem {

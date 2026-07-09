@@ -23,7 +23,6 @@ def _load_route_names():
     return route_names
 
 
-@router.get("/")
 async def list_routes(date: Optional[str] = Query(None), hour: Optional[int] = Query(None)):
     loader = get_loader(DATA_DIR)
     headway = loader.load_gold("headway_analysis")
@@ -71,6 +70,10 @@ async def list_routes(date: Optional[str] = Query(None), hour: Optional[int] = Q
             "expected_headway_minutes": row.get("expected_headway", 15),
         })
     return {"routes": routes_data}
+
+
+router.add_api_route("/", list_routes, methods=["GET"])
+router.add_api_route("", list_routes, methods=["GET"])
 
 
 @router.get("/{route_id}/summary")

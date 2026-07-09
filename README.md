@@ -302,9 +302,17 @@ Dashboard / Executive Brief / Methodology
 ## 🚀 Quick Start / Início Rápido
 
 ### Live Demo
-Demo pública one-click: **[https://viastat.vercel.app](https://viastat.vercel.app)** → **Abrir Live Demo**.
+Demo pública (lab): **[https://representation-mpg-reflect-stylus.trycloudflare.com](https://representation-mpg-reflect-stylus.trycloudflare.com)** → **Abrir Live Demo**.
 
 > **Lab only.** Dataset sintético (seed 42). Não é operação real de transporte público.
+>
+> **Deploy note:** o projeto já está linkado na Vercel (`barujafe1s-projects/viastat`) com `vercel.json` Services (Next + FastAPI). O deploy de produção ficou bloqueado temporariamente pelo limite diário da conta free (`api-deployments-free-per-day`). Quando a cota resetar:
+>
+> ```bash
+> npx vercel deploy --prod --yes --scope barujafe1s-projects
+> ```
+>
+> URL permanente pretendida: `https://viastat.vercel.app`
 
 ### Pré-requisitos
 - **Node.js** v20+
