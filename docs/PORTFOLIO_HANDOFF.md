@@ -1,8 +1,9 @@
 # Portfolio Handoff — ViaStat S-tier pass
 
 **Date:** 2026-07-13  
-**Branch:** `chore/portfolio-quality-pass` → merge `main`  
+**Branch:** `chore/portfolio-quality-pass` → merged `main` (`aee91a6`)  
 **Canonical Live Demo:** https://viastat-eight.vercel.app  
+**Production deploy:** `dpl_2AuQfLrhJSMzxSmmWAqkZAYToquo` (READY, aliased)  
 **Repo:** https://github.com/BarujaFe1/viastat
 
 ## Summary
@@ -46,7 +47,7 @@ npx vercel deploy --prod --yes --scope baruja-fe
 - Pytest: **54 passed**
 - ESLint / tsc / next build: **pass**
 - Playwright: **3 passed**
-- Live smoke after deploy: `/`, `/network`, `/health`, `/api/network/geojson`, `/case-study`
+- Live smoke after deploy: `/`, `/network`, `/health`, `/api/network/geojson`, `/case-study` → **200** (2026-07-13)
 
 ## Limitations
 
