@@ -14,6 +14,7 @@ import {
   Activity,
   Menu,
   X,
+  FlaskConical,
 } from "lucide-react";
 
 const navLinks = [
@@ -23,9 +24,11 @@ const navLinks = [
   { href: "/headway", label: "Headway", icon: BarChart3 },
   { href: "/quality", label: "Qualidade", icon: ShieldCheck },
   { href: "/brief", label: "Relatório", icon: FileText },
+  { href: "/case-study", label: "Case", icon: FlaskConical },
   { href: "/methodology", label: "Metodologia", icon: BookOpen },
   { href: "/pipeline", label: "Pipeline", icon: Map },
 ];
+
 
 export function Navbar() {
   const pathname = usePathname();

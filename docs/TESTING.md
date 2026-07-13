@@ -29,7 +29,15 @@ npm run typecheck
 npm run build
 ```
 
-There is no Jest/Vitest suite yet; regressions are caught by TypeScript + ESLint + production build in CI.
+There is Playwright coverage for the critical demo path:
+
+```bash
+# API on :8000, Next on :3000 (NEXT_PUBLIC_API_URL pointing at API for local)
+npm run test:e2e:install
+npm run test:e2e
+```
+
+CI runs pytest, frontend lint/typecheck/build, and Playwright against a local stack.
 
 ## CI
 

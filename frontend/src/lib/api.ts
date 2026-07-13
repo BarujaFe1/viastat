@@ -31,6 +31,13 @@ export const api = {
   networkSummary: (params?: { date?: string; hour?: string }) =>
     fetchJSON<NetworkSummary>("/api/network/summary", params),
 
+  networkGeojson: () =>
+    fetchJSON<{
+      type: "FeatureCollection";
+      features: GeoJSON.Feature[];
+      route_count: number;
+    }>("/api/network/geojson"),
+
   routes: (params?: { date?: string; hour?: string }) =>
     fetchJSON<{ routes: RouteItem[] }>("/api/routes/", params),
 

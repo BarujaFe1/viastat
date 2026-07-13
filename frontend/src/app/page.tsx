@@ -96,6 +96,12 @@ export default function HomePage() {
           Relatório Executivo
         </Link>
         <Link
+          href="/case-study"
+          className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-slate-700 transition-colors hover:bg-slate-50"
+        >
+          Case study (3–5 min)
+        </Link>
+        <Link
           href="/methodology"
           className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-slate-700 transition-colors hover:bg-slate-50"
         >

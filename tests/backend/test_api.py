@@ -137,3 +137,36 @@ class TestAPI:
         assert resp.status_code == 200
         assert isinstance(resp.json()["total_routes"], int)
         assert resp.json()["total_routes"] >= 0
+
+    def test_network_geojson_single_roundtrip(self):
+        """Network map must load as one FeatureCollection with reliability scores."""
+        resp = client.get("/api/network/geojson")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["type"] == "FeatureCollection"
+        assert data["route_count"] >= 1
+        assert len(data["features"]) == data["route_count"]
+        props = data["features"][0]["properties"]
+        assert "route_id" in props
+        assert "reliability_score" in props
+        assert isinstance(props["reliability_score"], (int, float))
+
+    def test_network_geojson_faster_than_n_plus_one(self):
+        """Single /network/geojson should beat list + per-route geojson storm."""
+        import time
+
+        t0 = time.perf_counter()
+        bundled = client.get("/api/network/geojson")
+        bundled_ms = (time.perf_counter() - t0) * 1000
+        assert bundled.status_code == 200
+        n = bundled.json()["route_count"]
+
+        t1 = time.perf_counter()
+        routes = client.get("/api/routes").json()["routes"]
+        for r in routes:
+            assert client.get(f"/api/routes/{r['route_id']}/geojson").status_code == 200
+        nplus_ms = (time.perf_counter() - t1) * 1000
+
+        assert n >= 1
+        # Bundled path should be materially faster (allow generous margin on cold CI).
+        assert bundled_ms < nplus_ms, f"bundled={bundled_ms:.1f}ms n+1={nplus_ms:.1f}ms"

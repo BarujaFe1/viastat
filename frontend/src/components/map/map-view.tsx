@@ -32,14 +32,6 @@ function routeStyle(feature: GeoJSON.Feature | undefined) {
   return { color, weight: 3, opacity: 0.85 };
 }
 
-function isFeature(value: unknown): value is GeoJSON.Feature {
-  return (
-    !!value &&
-    typeof value === "object" &&
-    (value as { type?: unknown }).type === "Feature"
-  );
-}
-
 export function MapView() {
   const [routesGeoJson, setRoutesGeoJson] = useState<GeoJSON.GeoJSON | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -49,39 +41,17 @@ export function MapView() {
     setLoading(true);
     setError(null);
     api
-      .routes()
-      .then(async (data) => {
-        if (!data.routes?.length) {
-          setRoutesGeoJson(null);
-          return;
-        }
-        const results = await Promise.all(
-          data.routes.map(async (r) => {
-            try {
-              const gj = await api.routeGeojson(r.route_id);
-              if (!isFeature(gj.geojson)) return null;
-              return {
-                ...gj.geojson,
-                properties: {
-                  ...(gj.geojson.properties || {}),
-                  route_id: r.route_id,
-                  reliability_score: r.reliability_score,
-                  regularity_score: r.regularity_score,
-                  data_quality_score: r.data_quality_score,
-                },
-              } as GeoJSON.Feature;
-            } catch {
-              return null;
-            }
-          })
-        );
-        const features = results.filter((f): f is GeoJSON.Feature => f !== null);
-        if (features.length === 0) {
+      .networkGeojson()
+      .then((fc) => {
+        if (!fc.features?.length) {
           setError("Não foi possível carregar o traçado das rotas no mapa.");
           setRoutesGeoJson(null);
           return;
         }
-        setRoutesGeoJson({ type: "FeatureCollection", features });
+        setRoutesGeoJson({
+          type: "FeatureCollection",
+          features: fc.features,
+        });
       })
       .catch((e: Error) => {
         setError(e.message || "Falha ao carregar o mapa da rede.");
@@ -95,7 +65,7 @@ export function MapView() {
   }, [load]);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full" data-testid="network-map">
       {error && (
         <div className="absolute inset-x-0 top-0 z-[1000] p-2">
           <ErrorBanner message={error} onRetry={load} />
@@ -119,7 +89,7 @@ export function MapView() {
         />
         {routesGeoJson && (
           <GeoJSON
-            key={JSON.stringify(routesGeoJson)}
+            key={`network-${(routesGeoJson as GeoJSON.FeatureCollection).features.length}`}
             data={routesGeoJson}
             style={routeStyle}
           />

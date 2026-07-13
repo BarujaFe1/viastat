@@ -34,11 +34,12 @@ O **ViaStat** é um MVP lab full-stack que:
 
 ## Principais funcionalidades
 
-- Visão de rede com KPIs e mapa colorido por confiabilidade  
+- Visão de rede com KPIs e mapa colorido por confiabilidade (**1 request** GeoJSON: `/api/network/geojson`)  
 - Comparativo de rotas e detalhe por rota (pings, gaps, paradas)  
 - Análise de headway (proxy de cadência de telemetria por veículo)  
 - Painel de qualidade de dados e issues  
 - Relatório executivo determinístico (sem linguagem acusatória)  
+- Case study metodológico visual (`/case-study`) para roteiro de 3–5 min  
 - Metodologia e pipeline documentados  
 - Snapshot demo pronto para Vercel Services  
 
@@ -71,7 +72,7 @@ Detalhes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · decisões: [`docs/TE
 | Backend | FastAPI, Pydantic v2, Uvicorn |
 | Dados | Polars, Parquet (medallion) |
 | Deploy | Vercel Services |
-| Testes | Pytest (+ ESLint / `tsc` / `next build` no CI) |
+| Testes | Pytest + Playwright E2E (+ ESLint / `tsc` / `next build` no CI) |
 
 ---
 
@@ -130,9 +131,21 @@ cd frontend
 npm run lint
 npm run typecheck
 npm run build
+
+# e2e (API em :8000 + Next em :3000, ou DEMO_BASE_URL)
+npm run test:e2e:install
+npm run test:e2e
 ```
 
-Guia: [`docs/TESTING.md`](docs/TESTING.md) · CI: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+Guia: [`docs/TESTING.md`](docs/TESTING.md) · CI: [`.github/workflows/ci.yml`](.github/workflows/ci.yml) · screenshots: [`docs/SCREENSHOTS.md`](docs/SCREENSHOTS.md)
+
+## Roteiro de entrevista (3–5 min)
+
+1. **Problema** → `/case-study`  
+2. **Demo** → `/network` (mapa por confiabilidade)  
+3. **Qualidade** → `/quality`  
+4. **Trade-off** → headway = telemetria, não parada (`/methodology`)  
+5. **Brief** → limitações explícitas (`/brief`)  
 
 ---
 
@@ -150,9 +163,9 @@ Mais em [`docs/TECHNICAL_DECISIONS.md`](docs/TECHNICAL_DECISIONS.md).
 
 ## Roadmap
 
+- [x] Agregação geojson de rede em um único endpoint (evitar N+1)  
+- [x] Smoke E2E Playwright do caminho crítico  
 - [ ] Ingestão opcional de GTFS/GTFS-RT públicos  
-- [ ] Agregação geojson de rede em um único endpoint (evitar N+1)  
-- [ ] Testes e2e Playwright no smoke do Live Demo  
 - [ ] Cobertura de testes frontend para client API  
 - [ ] Alias custom de domínio quando disponível  
 
