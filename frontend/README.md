@@ -12,4 +12,4 @@ npm run build
 
 Set `NEXT_PUBLIC_API_URL=http://localhost:8000` for local API, or leave empty when using same-origin / Vercel rewrites.
 
-See the root [README](../README.md) and [docs/DEPLOYMENT.md](../docs/DEPLOYMENT.md).
+See the root [README](../README.md) and [docs/deployment.md](../docs/deployment.md).

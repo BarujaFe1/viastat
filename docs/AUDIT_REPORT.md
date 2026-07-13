@@ -77,6 +77,6 @@ ViaStat is already a strong portfolio lab: clear responsible-analytics story, sy
 - [x] `.env.example` present
 - [x] `.gitignore` protects secrets
 - [x] HANDOFF written
-- [ ] Branch pushed
+- [x] Branch pushed
 
 **Post-pass score estimate:** **8.7 / 10**
