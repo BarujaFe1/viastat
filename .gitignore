@@ -30,6 +30,7 @@ Thumbs.db
 .env.local
 .env.*.local
 **/.env
+!.env.example
 !**/.env.example
 
 # Caches / tooling
@@ -48,4 +49,8 @@ out/
 *.temp
 
 .vercel
-.env*
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/
+

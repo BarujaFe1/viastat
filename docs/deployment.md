@@ -1,23 +1,30 @@
-# Deploy (Vercel Lab)
+# Deployment
 
-ViaStat is deployed as a **Vercel Services** project on team **`baruja-fe`**:
+Canonical production URL: **https://viastat-eight.vercel.app**  
+Vercel team/project: **`baruja-fe/viastat`**  
+GitHub: https://github.com/BarujaFe1/viastat
 
-- `frontend/` → Next.js 16
-- `backend.main:app` → FastAPI
-- `data/` → synthetic demo snapshot (seed 42)
+## Architecture on Vercel
 
-Public routing:
+Configured by root `vercel.json` as **Services**:
+
+- Frontend: Next.js in `frontend/`
+- Backend: FastAPI `backend.main:app`
+- Demo data: tracked synthetic snapshot in `data/`
+
+Rewrites:
 
 - `/api/*`, `/health`, `/docs`, `/openapi.json` → backend
 - everything else → frontend
 
-## Live Demo
+Production frontend uses **same-origin** API calls (`NEXT_PUBLIC_API_URL` empty).
 
-- **Production:** https://viastat-eight.vercel.app
-- **Inspect:** https://vercel.com/baruja-fe/viastat
-- **GitHub:** https://github.com/BarujaFe1/viastat
+## Redeploy
 
-Production frontend uses same-origin API calls (`NEXT_PUBLIC_API_URL` empty), so browser requests hit the Vercel rewrites.
+```bash
+npx vercel link --yes --scope baruja-fe --project viastat
+npx vercel deploy --prod --yes --scope baruja-fe
+```
 
 ## Local parity
 
@@ -27,17 +34,17 @@ uvicorn backend.main:app --reload --port 8000
 
 # frontend
 cd frontend
+# optional: NEXT_PUBLIC_API_URL=http://localhost:8000
 npm run dev
 ```
 
-## Redeploy
+## Environment
 
-```bash
-npx vercel deploy --prod --yes --scope baruja-fe
-```
+See root `.env.example`, `backend/.env.example`, `frontend/.env.example`.
 
-Project link (already set in `.vercel/project.json`):
+Never commit `.env`, `.env.local`, or Vercel OIDC tokens.
 
-```bash
-npx vercel link --yes --scope baruja-fe --project viastat
-```
+## Notes
+
+- Alias `viastat.vercel.app` may already be taken on another account; current canonical host is `viastat-eight.vercel.app`.
+- Free-plan daily deployment quotas can block deploys; switch scope/team if needed.
