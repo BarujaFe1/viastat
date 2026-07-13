@@ -49,3 +49,8 @@ out/
 *.temp
 
 .vercel
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/
+
