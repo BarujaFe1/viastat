@@ -59,6 +59,20 @@ export const api = {
   pipelineStatus: () => fetchJSON<PipelineStatus>("/api/pipeline/status"),
 
   brief: () => fetchJSON<ExecutiveBrief>("/api/brief/"),
+
+  headwaySummary: () =>
+    fetchJSON<{
+      routes: Array<{
+        route_id: string;
+        route_short_name: string;
+        route_long_name: string;
+        expected_headway: number;
+        median_headway: number | null;
+        p90_headway: number | null;
+        p95_headway: number | null;
+        headway_cv: number | null;
+      }>;
+    }>("/api/headway/summary"),
 };
 
 export interface RouteItem {

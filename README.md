@@ -1,460 +1,198 @@
-<div align="center">
-  <img src="./assets/icon.png" alt="ViaStat Logo" width="120" height="120" />
+# ViaStat
 
-  <h1>ViaStat</h1>
+**Mobilidade Auditada** — lab analítico que transforma pings GPS ruidosos de transporte público em métricas auditáveis de regularidade, qualidade e confiabilidade, com incerteza explícita.
 
-  <p><strong>Auditoria de regularidade, qualidade e confiabilidade para dados GPS de transporte público.</strong></p>
-  <p><strong>Auditable regularity, quality and reliability analytics for noisy public-transit GPS pings.</strong></p>
-
-  <p>
-    <a href="#-visão-geral--overview">PT-BR / English Overview</a> •
-    <a href="#-product-preview">Preview</a> •
-    <a href="#-screenshots">Screenshots</a> •
-    <a href="#-stack--tecnologias">Stack</a> •
-    <a href="#-arquitetura--architecture">Architecture</a> •
-    <a href="#-quick-start--início-rápido">Quick Start</a> •
-    <a href="#-autor--author">Author</a>
-  </p>
-
-  <p>
-    <a href="https://viastat-eight.vercel.app">
-      <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-viastat--eight.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" />
-    </a>
-    <a href="https://github.com/BarujaFe1/viastat">
-      <img alt="GitHub" src="https://img.shields.io/badge/GitHub-BarujaFe1%2Fviastat-181717?style=for-the-badge&logo=github" />
-    </a>
-    <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs" />
-    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-React-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-    <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-    <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
-    <img alt="Polars" src="https://img.shields.io/badge/Polars-Parquet-CD792C?style=for-the-badge" />
-    <img alt="Responsible Analytics" src="https://img.shields.io/badge/Responsible-Analytics-22C55E?style=for-the-badge" />
-  </p>
-</div>
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-viastat--eight.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://viastat-eight.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-BarujaFe1%2Fviastat-181717?style=for-the-badge&logo=github)](https://github.com/BarujaFe1/viastat)
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/BarujaFe1/viastat/actions)
 
 <p align="center">
   <img src="./assets/hero-cover.png" alt="ViaStat product overview" width="100%" />
 </p>
 
----
-
-## 1. Visão Geral / Overview
-
-O **ViaStat** é uma plataforma analítica que transforma pings GPS ruidosos de ônibus em métricas auditáveis de **regularidade (headway)**, **cobertura**, **gaps**, **qualidade de dado** e **confiabilidade por rota**.
-
-Em vez de tratar métricas cívicas como verdade absoluta, o ViaStat audita a qualidade do dado antes de calcular indicadores e marca explicitamente quando a janela é **não interpretável**.
-
-O projeto foi desenvolvido por **Felipe Alirio Baruja** como peça de portfólio, combinando engenharia full-stack, pipeline de dados e comunicação responsável de incerteza.
-
-> **Responsible Analytics Notice**  
-> O ViaStat foi criado para diagnóstico agregado de qualidade e regularidade operacional. Ele **não deve** ser usado para vigilância individual, ranking de motoristas ou decisões acusatórias sobre pessoas.
+> **Lab only.** Dataset sintético (seed 42). Não é operação real. Não use para vigilância individual.
 
 ---
 
-## ✨ Product Preview
+## Problema real
+
+Dados de AVL/GPS de ônibus chegam com duplicatas, gaps, coordenadas inválidas, velocidades impossíveis e cobertura irregular. Dashboards cívicos frequentemente publicam KPIs como verdade absoluta — sem auditar a qualidade do dado nem marcar janelas não interpretáveis.
+
+## Solução
+
+O **ViaStat** é um MVP lab full-stack que:
+
+1. Gera um dataset sintético reproduzível com anomalias controladas  
+2. Processa raw → bronze → silver → gold (Parquet / Polars)  
+3. Expõe métricas via **FastAPI**  
+4. Visualiza rede, rotas, headway, qualidade e brief executivo em **Next.js**  
+5. Comunica limitações e incerteza de forma explícita  
+
+**Live Demo:** https://viastat-eight.vercel.app
+
+---
+
+## Principais funcionalidades
+
+- Visão de rede com KPIs e mapa colorido por confiabilidade  
+- Comparativo de rotas e detalhe por rota (pings, gaps, paradas)  
+- Análise de headway (proxy de cadência de telemetria por veículo)  
+- Painel de qualidade de dados e issues  
+- Relatório executivo determinístico (sem linguagem acusatória)  
+- Metodologia e pipeline documentados  
+- Snapshot demo pronto para Vercel Services  
 
 <p align="center">
   <img src="./assets/screenshots/01-home.png" alt="ViaStat Home" width="100%" />
 </p>
 
-O ViaStat apresenta uma experiência clara e cívica: KPIs de rede, mapa Leaflet, comparação de rotas, painel de qualidade, relatório executivo determinístico e metodologia documentada.
-
 ---
 
-## 2. Por que este projeto importa? / Why this project matters
-
-* **Dados de mobilidade são ruidosos:** pings faltantes, duplicatas, coordenadas inválidas e velocidades impossíveis são comuns.
-* **Dashboards cívicos costumam omitir incerteza:** números sem qualidade viram decisões frágeis.
-* **Regularidade precisa de auditoria:** headway só faz sentido quando cobertura e qualidade são suficientes.
-* **Portfólio full-stack com rigor analítico:** pipeline Parquet + API tipada + dashboard interativo + testes determinísticos.
-
----
-
-## 🧠 O diferencial do ViaStat / What makes ViaStat different
-
-### Português
-O ViaStat não é apenas um mapa de ônibus. Ele combina qualidade de dados, métricas de regularidade e comunicação de incerteza em uma experiência rastreável.
-
-Ele mostra não apenas o que os dados indicam, mas também:
-- quão confiável a janela está;
-- quais issues de qualidade foram detectados;
-- quais rotas são interpretáveis;
-- onde a cobertura é insuficiente;
-- quais limitações devem restringir a leitura.
-
-### English
-ViaStat is not just a transit map. It combines data quality, regularity metrics and uncertainty communication into one traceable experience.
-
-It shows not only what the data says, but also:
-- how reliable each window is;
-- which quality issues were detected;
-- which routes are interpretable;
-- where coverage is insufficient;
-- which limitations must constrain interpretation.
-
----
-
-## 🎯 Problema que resolve / The problem it solves
-
-Em fluxos reais de mobilidade, bases GPS costumam chegar com:
-- pings duplicados;
-- coordenadas inválidas `(0,0)`;
-- velocidades impossíveis;
-- gaps longos de sinal;
-- timestamps fora de ordem;
-- cobertura desigual por rota/hora;
-- dashboards que exibem métricas sem explicar qualidade.
-
-O **ViaStat** cria uma camada auditável entre o ping bruto e a decisão analítica.
-
----
-
-## 🧩 Proposta / Analytical Pipeline
-
-```txt
-Synthetic GTFS-like GPS dataset (seed 42)
-  ↓
-Raw CSV / GeoJSON / schedule
-  ↓
-Bronze Parquet (schema fixo)
-  ↓
-Silver quality flags (duplicates, invalid coords, speed, out-of-order, gaps)
-  ↓
-Gold metrics (headway, coverage, regularity, reliability)
-  ↓
-FastAPI endpoints
-  ↓
-Next.js dashboard (map, KPIs, quality, brief, methodology)
-```
-
----
-
-## 📸 Screenshots
-
-<table>
-  <tr>
-    <td width="50%">
-      <img src="./assets/screenshots/02-network.png" alt="Network overview" />
-      <br />
-      <sub><strong>Network Overview</strong> — KPIs da rede, filtros data/hora e mapa Leaflet com rotas coloridas por confiabilidade.</sub>
-    </td>
-    <td width="50%">
-      <img src="./assets/screenshots/03-routes.png" alt="Routes comparison" />
-      <br />
-      <sub><strong>Routes Comparison</strong> — tabela interpretável/insuficiente e gráfico comparativo de scores.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <img src="./assets/screenshots/04-route-detail-r07.png" alt="Route detail R07" />
-      <br />
-      <sub><strong>Route Detail</strong> — gauges, mapa com pings/paradas, headway por hora e comparação com programado.</sub>
-    </td>
-    <td width="50%">
-      <img src="./assets/screenshots/05-quality.png" alt="Quality center" />
-      <br />
-      <sub><strong>Quality Center</strong> — issues por severidade, tipos e impacto nas métricas.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <img src="./assets/screenshots/06-brief.png" alt="Executive brief" />
-      <br />
-      <sub><strong>Executive Brief</strong> — resumo determinístico, alertas, rotas confiáveis e limitações.</sub>
-    </td>
-    <td width="50%">
-      <img src="./assets/screenshots/01-home.png" alt="Home" />
-      <br />
-      <sub><strong>Home</strong> — posicionamento do produto, dataset sintético e navegação para o dashboard.</sub>
-    </td>
-  </tr>
-</table>
-
----
-
-## 📌 Estudo de Caso / Case Study
-
-### 📌 Estudo de Caso: Rede sintética de 10 rotas
-O dataset demo simula 10 rotas em São Paulo, 7 dias (2026-06-01 a 2026-06-07), ~79.603 pings e anomalias controladas. O pipeline recalibra cobertura contra veículos programados e usa gap relevante >10 min.
-
-Resultados típicos após calibração:
-- **R10 (exemplar):** reliability ≈ 100, coverage ≈ 100
-- **R07 (low_coverage):** coverage ≈ 33, reliability ≈ 70
-- **Issues de qualidade:** duplicate_ping, invalid_coordinate, impossible_speed, timestamp_out_of_order, large_gap
-
-### 📌 Case Study: Synthetic 10-route network
-The demo dataset simulates 10 São Paulo routes, 7 days, ~79,603 pings and controlled anomalies. Coverage is calibrated against scheduled vehicles and relevant gaps use a 10-minute threshold.
-
-Typical calibrated outcomes:
-- **R10 (exemplar):** reliability ≈ 100, coverage ≈ 100
-- **R07 (low_coverage):** coverage ≈ 33, reliability ≈ 70
-- **Quality issues:** duplicate_ping, invalid_coordinate, impossible_speed, timestamp_out_of_order, large_gap
-
----
-
-## 🧭 Visual Story / Jornada Analítica
-
-```txt
-1. Abrir a Home e entender o escopo do dataset sintético
-2. Ver KPIs e mapa da Rede
-3. Comparar rotas e status Interpretável/Insuficiente
-4. Abrir detalhe de rota (ex.: R07 e R10)
-5. Inspecionar Quality Center e issues
-6. Ler o Executive Brief e limitações
-7. Conferir Pipeline e Metodologia
-```
-
----
-
-## ⚙️ Funcionalidades Principais / Core Features
-
-### Network Dashboard
-KPIs de rotas, pings, qualidade média e confiabilidade média, com filtros de data/hora e mapa Leaflet.
-
-### Route Comparison
-Tabela ordenável com scores e badge de interpretabilidade, mais gráfico comparativo.
-
-### Route Detail
-Gauges, métricas por janela, série de headway, comparação com programado, mapa com pings/gaps/paradas e issues da rota.
-
-### Quality Center
-Issues agregados por severidade/tipo, com impacto nas métricas e exemplos.
-
-### Executive Brief
-Relatório determinístico sem linguagem acusatória, com alertas, listas de rotas e limitações.
-
-### Methodology & Anti-scope
-Documentação explícita de fórmulas, limites e o que o produto **não** faz.
-
----
-
-## 🛠️ Stack / Tecnologias
-
-### Frontend
-- **Framework:** Next.js 16 (App Router) & React 19
-- **Linguagem:** TypeScript
-- **Estilização:** Tailwind CSS v4
-- **Mapas:** Leaflet / react-leaflet
-- **Gráficos:** Recharts
-- **Tabela:** TanStack Table
-- **Ícones:** Lucide React
-
-### Backend
-- **Framework API:** FastAPI & Uvicorn (Python 3.12)
-- **Modelagem:** Pydantic v2
-- **Processamento:** Polars + Parquet
-- **Testes:** Pytest
-
----
-
-## 🧱 Arquitetura / Architecture
+## Arquitetura
 
 ```text
-viastat/
-├── backend/                 # FastAPI
-│   ├── routers/             # health, network, routes, quality, brief, pipeline
-│   ├── services/            # loader, metrics, quality, brief
-│   ├── schemas/             # modelos Pydantic
-│   └── config.py
-├── frontend/                # Next.js App Router
-│   └── src/
-│       ├── app/             # páginas (/network, /routes, /quality, /brief...)
-│       ├── components/      # map, charts, ui
-│       └── lib/             # api client + types
-├── scripts/                 # gerador sintético + pipeline Parquet
-├── tests/                   # pytest (backend + pipeline)
-├── docs/                    # metodologia, assumptions, case study
-├── assets/                  # ícone, hero, screenshots
-├── data/                    # gerado localmente (gitignored)
-└── README.md
+Synthetic GPS (seed 42)
+   → scripts/generate + build_parquet_dataset
+   → data/raw|bronze|silver|gold
+   → FastAPI (Polars)
+   → Next.js UI
+   → Vercel Services (same-origin /api rewrites)
 ```
 
----
-
-## 🧱 Visual Architecture
-
-<p align="center">
-  <img src="./assets/architecture-pipeline.png" alt="ViaStat visual architecture" width="100%" />
-</p>
-
-ViaStat follows a traceable analytical flow: synthetic GPS enters the pipeline, gets standardized, quality-flagged, aggregated into gold metrics and exposed through FastAPI to the Next.js dashboard.
+Detalhes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · decisões: [`docs/TECHNICAL_DECISIONS.md`](docs/TECHNICAL_DECISIONS.md)
 
 ---
 
-## 🔁 Data Flow Pipeline
+## Stack
 
-```txt
-Raw Input (CSV / GeoJSON / schedule)
-  ↓
-Bronze Parquet
-  ↓
-Silver Quality Flags
-  ↓
-Gold Metrics (headway / coverage / reliability)
-  ↓
-FastAPI
-  ↓
-Dashboard / Executive Brief / Methodology
-```
+| Camada | Tecnologia |
+|--------|------------|
+| Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS 4, Leaflet, Recharts |
+| Backend | FastAPI, Pydantic v2, Uvicorn |
+| Dados | Polars, Parquet (medallion) |
+| Deploy | Vercel Services |
+| Testes | Pytest (+ ESLint / `tsc` / `next build` no CI) |
 
 ---
 
-## 🚀 Quick Start / Início Rápido
-
-### Live Demo
-Demo pública (lab): **[https://viastat-eight.vercel.app](https://viastat-eight.vercel.app)** → **Abrir Live Demo**.
-
-> **Lab only.** Dataset sintético (seed 42). Não é operação real de transporte público.
->
-> Hospedado na Vercel (`baruja-fe/viastat`) com Services (Next.js + FastAPI) e snapshot demo em `data/`.
+## Demo local
 
 ### Pré-requisitos
-- **Node.js** v20+
-- **Python** 3.12
-- **Git**
 
-### 1. Gerar dados e pipeline
+- Node.js 20+
+- Python 3.12+
+- Git
+
+### Variáveis de ambiente
+
+Copie [`.env.example`](.env.example). Também existem `backend/.env.example` e `frontend/.env.example`.
+
+| Variável | Uso |
+|----------|-----|
+| `VIASTAT_DATA_DIR` | Raiz dos dados (default `./data`) |
+| `VIASTAT_CORS_ORIGINS` | Origins locais |
+| `VIASTAT_SEED` | Seed do gerador |
+| `NEXT_PUBLIC_API_URL` | Vazio em produção (same-origin); local opcional `http://localhost:8000` |
+
+### Comandos
+
 ```bash
-cd viastat
+# 1) Backend
 python -m venv backend/.venv
 backend\.venv\Scripts\activate          # Windows
 # source backend/.venv/bin/activate     # Linux/macOS
-pip install -r backend/requirements.txt
+pip install -r requirements.txt -r backend/requirements.txt
 
+# (opcional) regenerar dados
 python scripts/generate_synthetic_gtfs_like_data.py
 python scripts/build_parquet_dataset.py
-```
 
-### 2. Backend FastAPI
-```bash
-# a partir da raiz, com venv ativo
 uvicorn backend.main:app --reload --port 8000
-```
-API em [http://127.0.0.1:8000](http://127.0.0.1:8000). Docs em `/docs`.
 
-### 3. Frontend Next.js
-```bash
+# 2) Frontend (outro terminal)
 cd frontend
-npm install
-# opcional: copie .env.example para .env.local
+npm ci
 npm run dev
 ```
-Frontend em [http://localhost:3000](http://localhost:3000).
 
-> Se a porta 8000 estiver ocupada, suba o backend em outra porta e defina `NEXT_PUBLIC_API_URL`.
+Abra http://localhost:3000 — API em http://localhost:8000/docs.
 
 ---
 
-## 🧪 Scripts e Testes / Scripts and Testing
+## Testes
 
-### Backend / Pipeline
 ```bash
-# da raiz do repositório, com dados gerados
+# backend
 python -m pytest -q
-```
 
-### Frontend
-```bash
+# frontend
 cd frontend
 npm run lint
+npm run typecheck
 npm run build
 ```
 
----
-
-## 📊 Metodologia / Methodology
-
-- **Headway:** intervalo entre pings consecutivos do mesmo veículo
-- **Coverage Score:** `100 × min(1, ping_count / expected_pings)` com esperado baseado em veículos programados
-- **Regularity Score:** baseado no CV do headway
-- **Data Quality Score:** composição de duplicatas, coords inválidas, velocidades impossíveis, out-of-order e gaps
-- **Reliability Score:** composição de cobertura, gaps, duplicatas, volume, consistência e DQ
-- **Gap relevante:** silêncio > 10 minutos
-- **Não interpretável:** <10 pings, coverage <30% ou duplicatas >50%
-
-Detalhes em [`docs/methodology.md`](./docs/methodology.md) e [`docs/assumptions.md`](./docs/assumptions.md).
+Guia: [`docs/TESTING.md`](docs/TESTING.md) · CI: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 
 ---
 
-## 🛡️ Antiescopo e Boas Práticas
+## Decisões técnicas e trade-offs
 
-- Sem ranking individual de motoristas
-- Sem linguagem acusatória (“fraude”, “incompetente”, “motorista ruim”)
-- Sem vigilância pessoal
-- Sem IA generativa como núcleo analítico
-- Sem autenticação/multiusuário no MVP
-- Dados sintéticos — não representam operação real
+- **Sintético vs real:** demo segura e reproduzível; não afirma operação de cidade real.  
+- **Headway = intervalo entre pings do mesmo veículo:** proxy de telemetria, não headway de parada.  
+- **Vercel Services monorepo:** uma URL pública; bundle Python e tamanho de `data/` são limites.  
+- **API pública sem auth:** ok para lab; anti-scope para produto real.  
+- **Incerteza explícita:** mais UX, menos vanity KPI.  
 
----
-
-## 💼 Valor para Portfólio / Portfolio Value
-
-O ViaStat demonstra competências de **Analytics Engineering**, **Data Engineering** e **Full-Stack**:
-- pipeline raw→bronze→silver→gold com Parquet
-- qualidade de dados geoespaciais
-- métricas estatísticas explicáveis
-- API FastAPI tipada
-- dashboard Next.js com mapa e gráficos
-- comunicação responsável de incerteza
+Mais em [`docs/TECHNICAL_DECISIONS.md`](docs/TECHNICAL_DECISIONS.md).
 
 ---
 
-## 📚 Documentação Complementar
+## Roadmap
 
-- [`docs/methodology.md`](./docs/methodology.md) — fórmulas e limites
-- [`docs/assumptions.md`](./docs/assumptions.md) — premissas do dataset
-- [`docs/data-contracts.md`](./docs/data-contracts.md) — contratos de dados
-- [`docs/data-sources.md`](./docs/data-sources.md) — fontes e geração
-- [`docs/portfolio-case-study.md`](./docs/portfolio-case-study.md) — case study
+- [ ] Ingestão opcional de GTFS/GTFS-RT públicos  
+- [ ] Agregação geojson de rede em um único endpoint (evitar N+1)  
+- [ ] Testes e2e Playwright no smoke do Live Demo  
+- [ ] Cobertura de testes frontend para client API  
+- [ ] Alias custom de domínio quando disponível  
 
----
+## Status atual
 
-## 🖼️ GitHub Social Preview
-
-```txt
-assets/social-preview.png
-```
-Dimensão recomendada: 1280×640. Upload em: Repository Settings → Social Preview.
+- **Produção:** https://viastat-eight.vercel.app (time `baruja-fe`)  
+- **Repo:** https://github.com/BarujaFe1/viastat  
+- **Deploy:** [`docs/deployment.md`](docs/deployment.md)  
+- **Auditoria desta pass:** [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)
 
 ---
 
-## 🔖 GitHub Repository Metadata
+## O que este projeto demonstra
 
-### About sugerido
-```txt
-Auditable regularity, quality and reliability analytics for noisy public-transit GPS pings.
-```
-
-### Topics sugeridos
-```txt
-public-transit
-gps-analytics
-data-quality
-headway
-fastapi
-nextjs
-typescript
-python
-polars
-parquet
-leaflet
-responsible-analytics
-portfolio-project
-mobility
-```
+- Pipeline de dados com contratos e anomalias controladas  
+- API analytics com FastAPI + Polars  
+- Dashboard de mobilidade com mapa, charts e brief  
+- Comunicação responsável de incerteza  
+- DX: `.env.example`, CI, docs de arquitetura/testes/deploy  
+- Critério de produto: lab de portfólio, não “fake SaaS”  
 
 ---
 
-## 👤 Autor / Author
+## Como eu apresentaria em entrevista
 
-Desenvolvido por **Felipe Alirio Baruja**.
+1. **Problema:** KPIs de mobilidade sem auditoria de qualidade.  
+2. **Tese:** métrica só é útil se a janela for interpretável.  
+3. **Demo:** abrir Live Demo → Rede (mapa por confiabilidade) → Qualidade → Brief.  
+4. **Trade-off honesto:** headway aqui é cadência de ping, não AVL de parada.  
+5. **Engenharia:** medallion Parquet, Services na Vercel, pytest + CI.  
+6. **Próximo passo:** dados públicos reais (ex.: OpenBus) sem perder a narrativa de incerteza.
 
-- **Portfolio:** [barujafe.vercel.app](https://barujafe.vercel.app/)
-- **GitHub:** [@BarujaFe1](https://github.com/BarujaFe1)
-- **LinkedIn:** [Gustavo Felipe Alirio Baruja](https://www.linkedin.com/in/barujafe/)
+Case study: [`docs/portfolio-case-study.md`](docs/portfolio-case-study.md)
 
 ---
 
-## 📄 Licença / License
+## Autor
 
-MIT License. Copyright (c) 2026 Felipe Alirio Baruja.
+**Felipe Alirio Baruja** · [GitHub](https://github.com/BarujaFe1)
+
+## Licença
+
+MIT — ver [`LICENSE`](LICENSE).

@@ -34,9 +34,15 @@ def detect_out_of_order(pings: pl.DataFrame) -> pl.DataFrame:
     )
 
 
-def detect_gaps(pings: pl.DataFrame, gap_threshold_minutes: float = 5.0) -> pl.DataFrame:
+def detect_gaps(pings: pl.DataFrame, gap_threshold_minutes: float = 10.0) -> pl.DataFrame:
+    """Annotate each ping with minutes until the next ping for the same vehicle.
+
+    `gap_threshold_minutes` is the contract threshold used by callers when
+    classifying a gap as an issue (pipeline default: 10 minutes). The column
+    itself always stores the raw consecutive delta.
+    """
+    _ = gap_threshold_minutes  # documented contract; classification happens at call sites
     pings = pings.sort(["vehicle_id", "timestamp"])
-    gap_seconds = gap_threshold_minutes * 60.0
     return pings.with_columns(
         (pl.col("timestamp").diff().dt.total_seconds() / 60.0)
         .alias("gap_minutes_after")

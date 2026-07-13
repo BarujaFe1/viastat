@@ -14,7 +14,7 @@ export default function MethodologyPage() {
         <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
           <li>10 rotas simuladas na região de São Paulo</li>
           <li>7 dias de operação</li>
-          <li>Pings GPS a cada 15–60 segundos com variação controlada</li>
+          <li>Pings GPS com cadência média de ~6 minutos (~10 pings/veículo/hora), com variação e anomalias controladas</li>
           <li>Horários de pico (6–9h, 17–20h) com mais veículos</li>
           <li>Anomalias controladas por rota (duplicatas, gaps, etc.)</li>
         </ul>
@@ -36,7 +36,8 @@ export default function MethodologyPage() {
         <div className="mb-4">
           <h3 className="font-semibold text-slate-800">Headway</h3>
           <p className="text-sm text-slate-600">
-            Intervalo entre pings consecutivos de um mesmo veículo.
+            Intervalo entre pings consecutivos de um mesmo veículo (proxy de cadência de
+            telemetria — não headway de parada).
             <code className="ml-1 rounded bg-slate-100 px-1 py-0.5 text-xs">
               headway_i = timestamp_i - timestamp_{`{i-1}`}
             </code>

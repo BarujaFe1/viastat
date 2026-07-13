@@ -20,6 +20,7 @@
 
 1. Os dados são sintéticos — não representam operação real
 2. O recorte de 1 semana não captura sazonalidade
-3. Não há dados de GTFS programado para comparação
+3. Há um `schedule.csv` sintético para comparação exploratória observado vs. esperado; não é GTFS oficial nem programação real de operador
 4. As rotas são simplificadas geograficamente
 5. Os scores são indicadores exploratórios, não certificações
+6. “Headway” neste lab = intervalo entre pings do mesmo veículo (telemetria), não headway de parada

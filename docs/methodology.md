@@ -6,7 +6,7 @@ O ViaStat utiliza um dataset sintético reproduzível gerado com seed fixa (42).
 
 - 10 rotas simuladas na região de São Paulo
 - 7 dias de operação (1 a 7 de junho de 2026)
-- Pings GPS a cada 15-60 segundos com variação controlada
+- Pings GPS com cadência média de ~6 minutos (~10 pings/veículo/hora), com variação e anomalias controladas
 - Horários de pico (6-9h, 17-20h) com mais veículos
 - Horário noturno (0-5h) com menos veículos
 - Anomalias controladas por rota
@@ -22,7 +22,7 @@ O ViaStat utiliza um dataset sintético reproduzível gerado com seed fixa (42).
 
 ### Headway
 
-Intervalo entre pings consecutivos de um mesmo veículo.
+Intervalo entre pings consecutivos de um mesmo veículo (proxy de cadência de telemetria; não é headway de parada).
 
 ### Coverage Score (0-100)
 

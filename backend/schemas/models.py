@@ -62,3 +62,30 @@ class NetworkSummary(BaseModel):
     avg_data_quality_score: float
     avg_coverage_score: float
     period: dict
+
+
+class DemoMetadata(BaseModel):
+    name: str
+    version: str
+    routes: int
+    days: int
+    seed: int
+    description: str
+    anomalies: list[str] = Field(default_factory=list)
+    total_pings: Optional[int] = None
+    region: Optional[str] = None
+
+
+class HeadwayRouteSummary(BaseModel):
+    route_id: str
+    route_short_name: str
+    route_long_name: str = ""
+    expected_headway: float
+    median_headway: Optional[float] = None
+    p90_headway: Optional[float] = None
+    p95_headway: Optional[float] = None
+    headway_cv: Optional[float] = None
+
+
+class HeadwaySummaryResponse(BaseModel):
+    routes: list[HeadwayRouteSummary]

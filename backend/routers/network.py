@@ -2,18 +2,19 @@ from typing import Optional
 from fastapi import APIRouter, Query
 from backend.services.loader import get_loader
 from backend.config import DATA_DIR
+from backend.schemas.models import NetworkSummary
 
 router = APIRouter()
 
 
-@router.get("/summary")
+@router.get("/summary", response_model=NetworkSummary)
 async def network_summary(date: Optional[str] = Query(None), hour: Optional[int] = Query(None)):
     loader = get_loader(DATA_DIR)
     metrics = loader.load_gold("route_metrics")
 
     if metrics is None or metrics.is_empty():
         return {
-            "total_routes": 10,
+            "total_routes": 0,
             "total_pings": 0,
             "total_vehicles": 0,
             "avg_reliability_score": 0.0,

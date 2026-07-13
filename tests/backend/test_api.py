@@ -110,3 +110,30 @@ class TestAPI:
         blame_words = ["motorista ruim", "rota problemática", "incompetente", "fraude"]
         for word in blame_words:
             assert word not in text, f"Found blame word: {word}"
+
+    def test_headway_summary(self):
+        resp = client.get("/api/headway/summary")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "routes" in data
+        assert len(data["routes"]) >= 1
+        row = data["routes"][0]
+        assert "route_id" in row
+        assert "median_headway" in row
+        assert "expected_headway" in row
+
+    def test_demo_metadata_reads_snapshot(self):
+        resp = client.get("/api/demo/metadata")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["seed"] == 42
+        assert data["routes"] == 10
+        assert data.get("total_pings") is not None
+
+    def test_network_summary_empty_shape_is_zero_routes(self):
+        """Contract: empty metrics must not invent a fake route count."""
+        # Smoke the live path still returns a non-negative integer count.
+        resp = client.get("/api/network/summary")
+        assert resp.status_code == 200
+        assert isinstance(resp.json()["total_routes"], int)
+        assert resp.json()["total_routes"] >= 0

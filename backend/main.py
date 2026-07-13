@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.config import CORS_ORIGINS, CORS_ORIGIN_REGEX
-from backend.routers import health, demo, network, routes, quality, brief, pipeline
+from backend.routers import health, demo, network, routes, quality, brief, pipeline, headway
 
 app = FastAPI(
     title="ViaStat API",
@@ -28,3 +28,4 @@ app.include_router(routes.router, prefix="/api/routes")
 app.include_router(quality.router, prefix="/api/quality")
 app.include_router(brief.router, prefix="/api/brief")
 app.include_router(pipeline.router, prefix="/api/pipeline")
+app.include_router(headway.router, prefix="/api/headway")

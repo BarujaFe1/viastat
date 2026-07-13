@@ -81,6 +81,10 @@ export default function NetworkPage() {
       <div className="mb-6 h-[400px] overflow-hidden rounded-lg border border-slate-200">
         <MapView />
       </div>
+      <p className="mb-6 text-xs text-slate-500">
+        O mapa mostra a rede completa colorida por score de confiabilidade agregado.
+        Os filtros de data/hora acima afetam os KPIs, não o traçado geográfico.
+      </p>
 
       <div className="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-500">
         {summary ? (

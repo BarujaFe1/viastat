@@ -65,6 +65,8 @@ export interface DemoMetadata {
   seed: number;
   description: string;
   anomalies: string[];
+  total_pings?: number | null;
+  region?: string | null;
 }
 
 export interface Stop {
