@@ -1,211 +1,276 @@
-# ViaStat
+<div align="center">
+  <img src="./assets/icon.png" alt="ViaStat Logo" width="120" height="120" />
 
-**Mobilidade Auditada** — lab analítico que transforma pings GPS ruidosos de transporte público em métricas auditáveis de regularidade, qualidade e confiabilidade, com incerteza explícita.
+  <h1>ViaStat</h1>
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-viastat--eight.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://viastat-eight.vercel.app)
-[![GitHub](https://img.shields.io/badge/GitHub-BarujaFe1%2Fviastat-181717?style=for-the-badge&logo=github)](https://github.com/BarujaFe1/viastat)
-[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/BarujaFe1/viastat/actions)
+  <p><strong>Mobilidade auditada — regularidade, qualidade e confiabilidade a partir de pings GPS ruidosos.</strong></p>
+  <p><strong>Audited mobility — regularity, quality and reliability from noisy public-transit GPS pings.</strong></p>
 
-<p align="center">
-  <img src="./assets/hero-cover.png" alt="ViaStat product overview" width="100%" />
-</p>
+  <p>
+    <a href="#pt-br">PT-BR</a> ·
+    <a href="#en">English</a> ·
+    <a href="#live-demo">Live Demo</a> ·
+    <a href="#stack--tecnologias">Stack</a> ·
+    <a href="#arquitetura--architecture">Architecture</a> ·
+    <a href="#quick-start--início-rápido">Quick Start</a> ·
+    <a href="#autor--author">Author</a>
+  </p>
 
-> **Lab only.** Dataset sintético (seed 42). Não é operação real. Não use para vigilância individual.
+  <p>
+    <a href="https://viastat-eight.vercel.app"><img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-viastat--eight.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" /></a>
+    <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs" />
+    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-React-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+    <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+    <img alt="Leaflet" src="https://img.shields.io/badge/Leaflet-Maps-199900?style=for-the-badge&logo=leaflet&logoColor=white" />
+    <img alt="Lab Demo" src="https://img.shields.io/badge/Status-Lab%20demo-2563EB?style=for-the-badge" />
+    <img alt="MIT" src="https://img.shields.io/badge/License-MIT-111827?style=for-the-badge" />
+  </p>
 
----
-
-## Problema real
-
-Dados de AVL/GPS de ônibus chegam com duplicatas, gaps, coordenadas inválidas, velocidades impossíveis e cobertura irregular. Dashboards cívicos frequentemente publicam KPIs como verdade absoluta — sem auditar a qualidade do dado nem marcar janelas não interpretáveis.
-
-## Solução
-
-O **ViaStat** é um MVP lab full-stack que:
-
-1. Gera um dataset sintético reproduzível com anomalias controladas  
-2. Processa raw → bronze → silver → gold (Parquet / Polars)  
-3. Expõe métricas via **FastAPI**  
-4. Visualiza rede, rotas, headway, qualidade e brief executivo em **Next.js**  
-5. Comunica limitações e incerteza de forma explícita  
-
-**Live Demo:** https://viastat-eight.vercel.app
-
----
-
-## Principais funcionalidades
-
-- Visão de rede com KPIs e mapa colorido por confiabilidade (**1 request** GeoJSON: `/api/network/geojson`)  
-- Comparativo de rotas e detalhe por rota (pings, gaps, paradas)  
-- Análise de headway (proxy de cadência de telemetria por veículo)  
-- Painel de qualidade de dados e issues  
-- Relatório executivo determinístico (sem linguagem acusatória)  
-- Case study metodológico visual (`/case-study`) para roteiro de 3–5 min  
-- Metodologia e pipeline documentados  
-- Snapshot demo pronto para Vercel Services  
+  <p>
+    <a href="https://viastat-eight.vercel.app"><strong>Live Demo</strong></a> ·
+    <a href="https://github.com/BarujaFe1/viastat"><strong>Repositório</strong></a> ·
+    <a href="https://barujafe.vercel.app/"><strong>Portfólio</strong></a> ·
+    <a href="https://www.linkedin.com/in/barujafe/"><strong>LinkedIn</strong></a>
+  </p>
+</div>
 
 <p align="center">
-  <img src="./assets/screenshots/01-home.png" alt="ViaStat Home" width="100%" />
+  <img src="./assets/hero-cover.png" alt="ViaStat overview" width="100%" />
 </p>
 
 ---
 
-## Arquitetura
+<a id="pt-br"></a>
 
-```text
-Synthetic GPS (seed 42)
-   → scripts/generate + build_parquet_dataset
-   → data/raw|bronze|silver|gold
-   → FastAPI (Polars)
-   → Next.js UI
-   → Vercel Services (same-origin /api rewrites)
-```
+## PT-BR
 
-Detalhes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · decisões: [`docs/TECHNICAL_DECISIONS.md`](docs/TECHNICAL_DECISIONS.md)
+## Visão geral
+
+**ViaStat (Mobilidade Auditada)** transforma pings GPS ruidosos de transporte público em métricas auditáveis de regularidade, qualidade e confiabilidade, com incerteza explícita. MVP lab com Live Demo + FastAPI/Next.js.
+
+> **Aviso de lab:** demo de portfólio com dados sintéticos/amostra. Não é produto em produção com SLA, integrações reais de clientes ou garantia operacional.
 
 ---
 
-## Stack
+## Problema
 
-| Camada | Tecnologia |
-|--------|------------|
-| Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS 4, Leaflet, Recharts |
-| Backend | FastAPI, Pydantic v2, Uvicorn |
-| Dados | Polars, Parquet (medallion) |
-| Deploy | Vercel Services |
-| Testes | Pytest + Playwright E2E (+ ESLint / `tsc` / `next build` no CI) |
+GPS de ônibus é ruidoso e incompleto. Sem pipeline auditável, indicadores de regularidade viram números opacos.
 
 ---
 
-## Demo local
+## Para quem
 
-### Pré-requisitos
+- Analistas de mobilidade urbana
+- Engenheiros de dados de transporte
+- Gestores públicos avaliando qualidade de serviço (contexto lab)
+
+---
+
+## Funcionalidades
+
+- Pipeline bronze/silver/gold
+- Métricas de regularidade/qualidade/confiabilidade
+- Mapa (Leaflet) por confiabilidade
+- Brief metodológico
+- Dados sintéticos GTFS-like
+- Testes pytest + Playwright e2e
+
+---
+
+## Escopo e limites
+
+- **É:** lab analítico com dados sintéticos reproduzíveis.
+- **Não é:** operação de cidade real, AVL production, SLA de transporte público.
+
+---
+
+<a id="en"></a>
+
+## English
+
+## Overview
+
+**ViaStat (Audited Mobility)** turns noisy public-transit GPS pings into auditable regularity, quality and reliability metrics with explicit uncertainty. MVP lab with Live Demo + FastAPI/Next.js.
+
+> **Lab notice:** portfolio demo with synthetic/sample data. Not a production product with SLA, real customer integrations, or operational guarantees.
+
+---
+
+## Problem
+
+Bus GPS is noisy and incomplete. Without an auditable pipeline, regularity indicators become opaque numbers.
+
+---
+
+## Who it is for
+
+- Urban mobility analysts
+- Transit data engineers
+- Public managers exploring service quality (lab context)
+
+---
+
+## Features
+
+- Bronze/silver/gold pipeline
+- Regularity/quality/reliability metrics
+- Leaflet map by reliability
+- Methodological brief
+- Synthetic GTFS-like data
+- pytest + Playwright e2e
+
+---
+
+## Scope and limits
+
+- **Is:** analytical lab with reproducible synthetic data.
+- **Is not:** real-city operations, production AVL, public-transit SLA.
+
+---
+
+<a id="live-demo"></a>
+
+## Live Demo
+
+**URL:** [https://viastat-eight.vercel.app](https://viastat-eight.vercel.app)
+
+Demo hospedada para avaliação de portfólio / Hosted for portfolio review.
+
+> Lab demo — synthetic / sample data unless noted. Not a production SLA product.
+
+---
+
+<a id="stack--tecnologias"></a>
+
+## Stack / Tecnologias
+
+| Tecnologia | Uso no projeto |
+|---|---|
+| Next.js 16 / React 19 / TypeScript / Tailwind | Frontend |
+| Leaflet / react-leaflet / Recharts / Lucide | Mapa e charts |
+| FastAPI / Pydantic / Uvicorn | API |
+| Polars / NumPy | Processamento |
+| Pytest / Playwright | Testes |
+
+---
+
+<a id="arquitetura--architecture"></a>
+
+## Arquitetura / Architecture
+
+ackend/ FastAPI + rontend/ Next.js + camadas data/ + scripts/ de geração sintética e docs de auditoria.
+
+`	xt
+viastat/
+├── backend/
+│   ├── routers/
+│   ├── schemas/
+│   ├── services/
+│   └── main.py
+├── frontend/
+│   ├── src/
+│   └── e2e/
+├── data/
+│   ├── raw/ bronze/ silver/ gold/
+├── scripts/
+├── tests/
+├── docs/
+├── assets/
+└── vercel.json
+`
+
+---
+
+<a id="quick-start--início-rápido"></a>
+
+## Quick Start / Início rápido
+
+### Pré-requisitos / Requirements
 
 - Node.js 20+
 - Python 3.12+
-- Git
+- npm
 
-### Variáveis de ambiente
+### Clonar / Clone
 
-Copie [`.env.example`](.env.example). Também existem `backend/.env.example` e `frontend/.env.example`.
+`ash
+git clone https://github.com/BarujaFe1/viastat.git
+cd viastat
+`
 
-| Variável | Uso |
-|----------|-----|
-| `VIASTAT_DATA_DIR` | Raiz dos dados (default `./data`) |
-| `VIASTAT_CORS_ORIGINS` | Origins locais |
-| `VIASTAT_SEED` | Seed do gerador |
-| `NEXT_PUBLIC_API_URL` | Vazio em produção (same-origin); local opcional `http://localhost:8000` |
+### Backend
 
-### Comandos
-
-```bash
-# 1) Backend
-python -m venv backend/.venv
-backend\.venv\Scripts\activate          # Windows
-# source backend/.venv/bin/activate     # Linux/macOS
+`ash
 pip install -r requirements.txt -r backend/requirements.txt
-
-# (opcional) regenerar dados
-python scripts/generate_synthetic_gtfs_like_data.py
-python scripts/build_parquet_dataset.py
-
 uvicorn backend.main:app --reload --port 8000
+`
 
-# 2) Frontend (outro terminal)
+### Frontend
+
+`ash
 cd frontend
 npm ci
 npm run dev
-```
+`
 
-Abra http://localhost:3000 — API em http://localhost:8000/docs.
+Abra http://localhost:3000
 
----
+`ash
+# testes
+pytest
+cd frontend && npm run lint && npm run typecheck
+# e2e: API :8000 + Next :3000
+cd frontend && npm run test:e2e:install && npm run test:e2e
+`
 
-## Testes
-
-```bash
-# backend
-python -m pytest -q
-
-# frontend
-cd frontend
-npm run lint
-npm run typecheck
-npm run build
-
-# e2e (API em :8000 + Next em :3000, ou DEMO_BASE_URL)
-npm run test:e2e:install
-npm run test:e2e
-```
-
-Guia: [`docs/TESTING.md`](docs/TESTING.md) · CI: [`.github/workflows/ci.yml`](.github/workflows/ci.yml) · screenshots: [`docs/SCREENSHOTS.md`](docs/SCREENSHOTS.md)
-
-## Roteiro de entrevista (3–5 min)
-
-1. **Problema** → `/case-study`  
-2. **Demo** → `/network` (mapa por confiabilidade)  
-3. **Qualidade** → `/quality`  
-4. **Trade-off** → headway = telemetria, não parada (`/methodology`)  
-5. **Brief** → limitações explícitas (`/brief`)  
 
 ---
 
-## Decisões técnicas e trade-offs
+## Technical decisions / Decisões técnicas
 
-- **Sintético vs real:** demo segura e reproduzível; não afirma operação de cidade real.  
-- **Headway = intervalo entre pings do mesmo veículo:** proxy de telemetria, não headway de parada.  
-- **Vercel Services monorepo:** uma URL pública; bundle Python e tamanho de `data/` são limites.  
-- **API pública sem auth:** ok para lab; anti-scope para produto real.  
-- **Incerteza explícita:** mais UX, menos vanity KPI.  
-
-Mais em [`docs/TECHNICAL_DECISIONS.md`](docs/TECHNICAL_DECISIONS.md).
+- **Sintético vs real:** demo segura e reproduzível; não afirma operação de cidade real.
+- **Polars** para pipeline tabular eficiente.
+- **Incerteza explícita** nas métricas de confiabilidade.
+- **Leaflet** para mapa de rede por confiabilidade.
 
 ---
 
 ## Roadmap
 
-- [x] Agregação geojson de rede em um único endpoint (evitar N+1)  
-- [x] Smoke E2E Playwright do caminho crítico  
-- [ ] Ingestão opcional de GTFS/GTFS-RT públicos  
-- [ ] Cobertura de testes frontend para client API  
-- [ ] Alias custom de domínio quando disponível  
+### Implementado
+- Pipeline, métricas, mapa, brief, Live Demo Vercel, testes
 
-## Status atual
-
-- **Produção:** https://viastat-eight.vercel.app (time `baruja-fe`)  
-- **Repo:** https://github.com/BarujaFe1/viastat  
-- **Deploy:** [`docs/deployment.md`](docs/deployment.md)  
-- **Auditoria desta pass:** [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)
+### Planejado
+- Mais indicadores de headway
+- Comparativos entre dias
+- Empacotamento de dataset gold
 
 ---
 
-## O que este projeto demonstra
+<a id="autor--author"></a>
 
-- Pipeline de dados com contratos e anomalias controladas  
-- API analytics com FastAPI + Polars  
-- Dashboard de mobilidade com mapa, charts e brief  
-- Comunicação responsável de incerteza  
-- DX: `.env.example`, CI, docs de arquitetura/testes/deploy  
-- Critério de produto: lab de portfólio, não “fake SaaS”  
+## Autor / Author
 
----
+Developed by **Felipe Alirio Baruja**.
 
-## Como eu apresentaria em entrevista
-
-1. **Problema:** KPIs de mobilidade sem auditoria de qualidade.  
-2. **Tese:** métrica só é útil se a janela for interpretável.  
-3. **Demo:** abrir Live Demo → Rede (mapa por confiabilidade) → Qualidade → Brief.  
-4. **Trade-off honesto:** headway aqui é cadência de ping, não AVL de parada.  
-5. **Engenharia:** medallion Parquet, Services na Vercel, pytest + CI.  
-6. **Próximo passo:** dados públicos reais (ex.: OpenBus) sem perder a narrativa de incerteza.
-
-Case study: [`docs/portfolio-case-study.md`](docs/portfolio-case-study.md)
+- **Portfolio:** [https://barujafe.vercel.app/](https://barujafe.vercel.app/)
+- **GitHub:** [github.com/BarujaFe1](https://github.com/BarujaFe1)
+- **LinkedIn:** [linkedin.com/in/barujafe](https://www.linkedin.com/in/barujafe/)
+- **Repository:** [github.com/BarujaFe1/viastat](https://github.com/BarujaFe1/viastat)
 
 ---
 
-## Autor
+## License / Licença
 
-**Felipe Alirio Baruja** · [GitHub](https://github.com/BarujaFe1)
+MIT License.
 
-## Licença
+See [LICENSE](./LICENSE) for details.
 
-MIT — ver [`LICENSE`](LICENSE).
+---
+
+<div align="center">
+  <p><strong>ViaStat</strong></p>
+  <p>Mobilidade com métricas auditáveis — lab sintético.</p>
+  <p><em>Mobility with auditable metrics — synthetic lab.</em></p>
+</div>
